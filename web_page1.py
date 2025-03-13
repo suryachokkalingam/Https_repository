@@ -3,6 +3,7 @@ import webbrowser
 import threading
 import time
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -24,14 +25,15 @@ def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
 
 def stop_server():
-    """Stops the server after 30 seconds."""
+    """Forcefully stops the server after 30 seconds."""
     time.sleep(30)
     try:
         requests.get("http://127.0.0.1:5000/shutdown")  # Calls shutdown endpoint
     except requests.exceptions.RequestException:
         pass  # Ignore errors in case the server is already down
+    os._exit(0)  # Forcefully stop the process
 
 if __name__ == '__main__':
-    threading.Thread(target=open_browser).start()  # Open browser automatically
-    threading.Thread(target=stop_server).start()  # Stop server after 30 sec
-    app.run(debug=True)
+    threading.Thread(target=open_browser, daemon=True).start()  # Open browser automatically
+    threading.Thread(target=stop_server, daemon=True).start()  # Stop server after 30 sec
+    app.run(debug=False, use_reloader=False)  # Run Flask server
