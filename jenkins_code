@@ -1,0 +1,35 @@
+pipeline{
+    agent any
+    stages{
+        stage("git repository"){
+            steps{
+                echo "checking for git repo";
+                git branch: 'main', url: 'https://github.com/suryachokkalingam/Https_repository.git'
+            }
+        }
+        stage('execution'){
+            steps{
+                echo "running the python file";
+                bat 'C:/Users/schokkalingam/AppData/Local/Programs/Python/Python38/python.exe web_page1.py'
+                echo "stop executing the python file";
+            }
+        }
+    }
+    post {
+        always {
+            echo 'this will always run'
+        }
+        success{
+            echo 'this will run only if successful'
+        }
+        failure {
+            echo 'this will run only if failed'
+        }
+        changed {
+            echo 'this will run only if the state of pipeline changed'
+            echo 'For example, if the Pipeline was previously failing but is now successfull or vice versa'
+        }
+        
+    }
+    
+}
