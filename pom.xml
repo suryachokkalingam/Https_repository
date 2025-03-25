@@ -7,7 +7,7 @@
     <groupId>com.example</groupId>
     <artifactId>my-app</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <dependencies>
         <!-- Example Dependency: JUnit for Testing -->
