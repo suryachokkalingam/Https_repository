@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/suryachokkalingam/Https_repository.git'
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                sh 'javac SimpleWebServer.java'
+                sh 'java SimpleWebServer'
+            }
+        }
+
+       
+    }
+
+    post {
+        success {
+            echo '✅ Java server compiled and started successfully.'
+            echo '   Check server.log for output.'
+        }
+        failure {
+            echo '❌ Build failed.'
+        }
+    }
+}
+
+
